@@ -27,6 +27,7 @@ LOGLEVEL = os.getenv('LOG_LEVEL').strip()
 BACKUP_INTERVAL = int(os.getenv('INTERVAL', '24'))
 PATTERN = os.getenv('PATTERN', 'ALL_INSTANCES')
 TAGGEDINSTANCE = os.getenv('TAGGEDINSTANCE', 'FALSE')
+KMS_KEY_ID = str(os.getenv('KMS_KEY_ID')).strip()
 
 if os.getenv('REGION_OVERRIDE', 'NO') != 'NO':
     REGION = os.getenv('REGION_OVERRIDE').strip()
@@ -71,7 +72,7 @@ def lambda_handler(event, context):
 
             # If the instance is encrypted, check to see if we need to reencrypt due to the default KMS key
             if db_instance['StorageEncrypted']:
-                if db_instance['KmsKeyId'] == 'arn:aws:kms:us-east-1:363687077708:key/fd418f2d-8475-4395-abab-14374d801853':
+                if db_instance['KmsKeyId'] == KMS_KEY_ID:
                     tags.append({'Key': 'requires_reencryption', 'Value': 'False'})
                 else:
                     tags.append({'Key': 'requires_reencryption', 'Value': 'True'})

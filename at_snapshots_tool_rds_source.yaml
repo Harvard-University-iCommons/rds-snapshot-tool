@@ -293,6 +293,8 @@ Resources:
             Ref: SourceRegionOverride
           TAGGEDINSTANCE:
             Ref: TaggedInstance
+          KMS_KEY_ID:
+            Ref: KmsKeyId
       Role:
         Fn::GetAtt:
         - iamroleSnapshotsRDS
